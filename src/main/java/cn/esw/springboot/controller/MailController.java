@@ -14,9 +14,9 @@ public class MailController {
     private MailService mailService;
 
     @RequestMapping("/send")
-    public String send(){
+    public void send(){
 
-        return mailService.send();
+         mailService.send();
     }
 
     @RequestMapping("/receive")

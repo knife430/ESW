@@ -5,7 +5,7 @@ import cn.esw.springboot.Util.Send;
 //快递小哥
 public class Handler implements Send {
     /*
-    小哥姓名   小哥类型   小哥是否空闲
+    小哥姓名   小哥类型
     从数据库中提取
      */
     private String name;

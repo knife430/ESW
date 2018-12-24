@@ -9,8 +9,10 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 @Repository
 public class HandlerDaoImpl {
-    //根据快递类型，查找空闲的小哥
+    //根据快递类型，派送
     private static String selectName = "select name from esw.handler where type = ? ";
+
+
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
@@ -23,5 +25,6 @@ public class HandlerDaoImpl {
             throw e;
         }
     }
+
 
 }
