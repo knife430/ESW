@@ -1,5 +1,7 @@
 package cn.esw.springboot.model;
 
+import java.sql.Timestamp;
+
 public class Mail {
 
     /*
@@ -24,7 +26,15 @@ public class Mail {
 
     private int state; //订单状态
 
+    public Timestamp getTimestamp() {
+        return timestamp;
+    }
 
+    public void setTimestamp(Timestamp timestamp) {
+        this.timestamp = timestamp;
+    }
+
+    private Timestamp timestamp ;
 
     public String getName() {
         return name;
@@ -48,16 +58,6 @@ public class Mail {
 
     public void setNumber(int number) {
         this.number = number;
-    }
-
-
-
-
-    public Mail(String name, int type, int number,int state) {
-        this.name = name;
-        this.type = type;
-        this.number = number;
-        this.state = state;
     }
 
 
