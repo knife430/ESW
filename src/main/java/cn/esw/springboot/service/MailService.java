@@ -7,4 +7,6 @@ public interface MailService {
 
             public String receive();
 
+            public String register();
+
 }

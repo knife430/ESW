@@ -14,7 +14,19 @@ public class Mail {
     //必填参数
     private String name;//发送人名字
     private int type;//类型
-    private int number;//订单号
+    private String number;//订单号
+    private int state; //订单状态
+    private Timestamp timestamp ; //指定时间
+
+    public int getRank() {
+        return rank;
+    }
+
+    public void setRank(int rank) {
+        this.rank = rank;
+    }
+
+    private int rank;  //商品等级
 
     public int getState() {
         return state;
@@ -24,7 +36,7 @@ public class Mail {
         this.state = state;
     }
 
-    private int state; //订单状态
+
 
     public Timestamp getTimestamp() {
         return timestamp;
@@ -34,7 +46,7 @@ public class Mail {
         this.timestamp = timestamp;
     }
 
-    private Timestamp timestamp ;
+
 
     public String getName() {
         return name;
@@ -52,11 +64,11 @@ public class Mail {
         this.type = type;
     }
 
-    public int getNumber() {
+    public String getNumber() {
         return number;
     }
 
-    public void setNumber(int number) {
+    public void setNumber(String number) {
         this.number = number;
     }
 

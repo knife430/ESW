@@ -12,16 +12,23 @@ public class MailController {
 
     @Autowired
     private MailService mailService;
-
+    //发货
     @RequestMapping("/send")
     public void send(){
 
          mailService.send();
     }
-
+    //收货
     @RequestMapping("/receive")
     public String reveive(){
 
         return mailService.receive();
+    }
+
+    //新建用户
+    @RequestMapping("/register")
+    public String register(){
+
+        return mailService.register();
     }
 }

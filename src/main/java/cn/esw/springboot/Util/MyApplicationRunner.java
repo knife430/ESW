@@ -1,6 +1,7 @@
 package cn.esw.springboot.Util;
 
 import cn.esw.springboot.dao.MailDaoImpl;
+import cn.esw.springboot.dao.SubmitterDaoImpl;
 import cn.esw.springboot.model.Mail;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
@@ -9,19 +10,16 @@ import org.springframework.stereotype.Component;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
-
+import java.util.*;
+//定时功能
 @Component//被spring容器管理
 
 public class MyApplicationRunner implements ApplicationRunner {
 
     @Autowired
     private MailDaoImpl mailDaoImpl;
-
-
+    @Autowired
+    private SubmitterDaoImpl submitterDaoImpl;
 
     @Override
     public void run(ApplicationArguments applicationArguments) throws Exception {
@@ -35,6 +33,7 @@ public class MyApplicationRunner implements ApplicationRunner {
             @Override
             public void run() {
                 List<Mail> list = mailDaoImpl.getState(1);
+                List<Mail> ranklist = new ArrayList<Mail>();
                 if(list.size()>0){
                     for(int i=0;i<list.size();i++){
                         Date a =list.get(i).getTimestamp();
@@ -47,22 +46,60 @@ public class MyApplicationRunner implements ApplicationRunner {
                             Date paramDate = dateFormat.parse(paramTime);
                             difference = systemDate.getTime() - paramDate.getTime();
                             if(difference==0){
-                                if(list.get(i).getType()==0){
-                                    System.out.println("快递员A发货");
-                                }
-                                if(list.get(i).getType()==1){
-                                    System.out.println("快递员B发货");
-                                }
-                                if(list.get(i).getType()==2){
-                                    System.out.println("快递员C发货");
-                                }
+                                    ranklist.add(list.get(i));
                             }
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
                     }
+                    if(ranklist.size()==1){
+                        if(ranklist.get(0).getType()==0){
+                            System.out.println(ranklist.get(0).getNumber()+"快递员A发货");
+                        }
+                        if(ranklist.get(0).getType()==1){
+                            System.out.println(ranklist.get(0).getNumber()+"快递员B发货");
+                        }
+                        if(ranklist.get(0).getType()==2){
+                            System.out.println(ranklist.get(0).getNumber()+"快递员C发货");
+                        }
+
+                    }
+                    if(ranklist.size()>1){
+                        printGroup(ranklist);
+
+
+                    }
                 }
             }
         }, 0, 60000);
     }
+    public static void printGroup(List<Mail> list) {
+        list.sort(new Comparator<Mail>() {
+            @Override
+            public int compare(Mail o1, Mail o2) {
+                if (o1.getRank()> o2.getRank()) {
+                    return -1;
+                }else if(o1.getRank() < o2.getRank()){
+                    return 1;
+                }else {
+                        return o1.getName().compareTo(o2.getName());
+                    }
+                }
+
+        });
+        for (Mail mail : list) {
+            if(mail.getType()==0){
+                System.out.println(mail.getNumber()+"快递员A发货");
+            }
+            if(mail.getType()==1){
+                System.out.println(mail.getNumber()+"快递员B发货");
+            }
+            if(mail.getType()==2){
+                System.out.println(mail.getNumber()+"快递员C发货");
+            }
+
+        }
+    }
+
+
 }

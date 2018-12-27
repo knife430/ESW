@@ -20,9 +20,9 @@ public class MailDaoImpl {
     /*
     将商品信息存入数据库  暂用jdbc
      */
-    private static String insertmail = "INSERT INTO esw.mail (name,type,number,state,time) VALUES (?, ?, ?,?,?) ";
+    private static String insertmail = "INSERT INTO esw.mail (name,type,number,state,time,rank) VALUES (?, ?, ?,?,?,?) ";
     private static String selectSql = "select * from esw.mail where state = ?";
-    private static String updateSql = "update  esw.mail set name = ? , type = ? ,state = ? ,time = ? where number = ?";
+    private static String updateSql = "update  esw.mail set name = ? , type = ? ,state = ? ,time = ? ,rank=? where number = ?";
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
@@ -33,9 +33,10 @@ public class MailDaoImpl {
                     public void setValues(PreparedStatement ps) throws SQLException {
                         ps.setString(1, mail.getName());
                         ps.setInt(2, mail.getType());
-                        ps.setInt(3, mail.getNumber());
+                        ps.setString(3, mail.getNumber());
                         ps.setInt(4,mail.getState());
                         ps.setTimestamp(5,mail.getTimestamp());
+                        ps.setInt(6,mail.getRank());
                     }
 
        });
@@ -53,7 +54,7 @@ public class MailDaoImpl {
     public void upDate(Mail mail) {
         try {
             jdbcTemplate.update(updateSql,
-                    new Object[] { mail.getName(),mail.getType(),mail.getState(),mail.getTimestamp(), mail.getNumber()});
+                    new Object[] { mail.getName(),mail.getType(),mail.getState(),mail.getTimestamp(),mail.getRank(), mail.getNumber()});
 
         } catch (DataAccessException e) {
             throw e;
@@ -69,9 +70,10 @@ public class MailDaoImpl {
             try {
                 mail.setName(rs.getString("Name"));
                 mail.setType(rs.getInt("Type"));
-                mail.setNumber(rs.getInt("Number"));
+                mail.setNumber(rs.getString("Number"));
                 mail.setState(rs.getInt("State"));
                 mail.setTimestamp(rs.getTimestamp("time"));
+                mail.setRank(rs.getInt("rank"));
                 return mail;
             } catch (Exception ex) {
                 return null;
